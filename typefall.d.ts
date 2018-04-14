@@ -109,8 +109,6 @@ declare interface IAngle {
     pitch: number;
     yaw: number;
     roll: number;
-
-    // constructor(pitch: number, yaw: number, roll: number);
     
     getForward(): IVector
     getNormalized(): IAngle
@@ -159,8 +157,6 @@ declare interface IColor {
     h: number;
     s: number;
     v: number;
-
-    // constructor (r: number, g: number, b: number);
 
     hsvToRGB(): IColor;
     rgbToHSV(): IColor;
