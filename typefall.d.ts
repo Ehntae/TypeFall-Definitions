@@ -104,7 +104,7 @@ declare interface IAngle {
     yaw: number;
     roll: number;
 
-    constructor(pitch: number, yaw: number, roll: number);
+    // constructor(pitch: number, yaw: number, roll: number);
     
     getForward(): IVector
     getNormalized(): IAngle
