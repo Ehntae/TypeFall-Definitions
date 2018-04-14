@@ -4,7 +4,7 @@ declare const SERVER : boolean;
 declare function print(...messages: string[]): void;
 declare function printTable(table: object): void;
 
-declare function chip(): Entity;
+declare function chip(): IEntity;
 
 // StarFall / hooks
 declare namespace hook {
@@ -32,17 +32,17 @@ declare namespace render {
 }
 
 declare interface IFilter {
-    (ent: Entity) : boolean
+    (ent: IEntity) : boolean
 }
 
 declare namespace find {
-    function all(filter: IFilter): Entity[];
-    function allPlayers(filter: IFilter): Entity[];
-    function byClass(className: string, filter: IFilter): Entity[];
-    function byModel(model: string, filter: IFilter): Entity[];
-    function inBox(corner1: IVector, corner2: IVector, filter: IFilter): Entity[];
-    function inCone(pos: IVector, direction: IVector, distance: number, radius: number, filter: IFilter): Entity[]; // TODO: Confirm that direction is a Vector, not an Angle.
-    function inSphere(center: IVector, radius: number, filter: IFilter): Entity[];
+    function all(filter: IFilter): IEntity[];
+    function allPlayers(filter: IFilter): IEntity[];
+    function byClass(className: string, filter: IFilter): IEntity[];
+    function byModel(model: string, filter: IFilter): IEntity[];
+    function inBox(corner1: IVector, corner2: IVector, filter: IFilter): IEntity[];
+    function inCone(pos: IVector, direction: IVector, distance: number, radius: number, filter: IFilter): IEntity[]; // TODO: Confirm that direction is a Vector, not an Angle.
+    function inSphere(center: IVector, radius: number, filter: IFilter): IEntity[];
 }
 
 declare interface IScreenIVector {
@@ -96,7 +96,7 @@ declare interface IVector {
  */
 declare function Angle(pitch: number, yaw:number, roll: number): IAngle;
 
-declare class IAngle {
+declare interface IAngle {
     p: number;
     y: number;
     r: number;
@@ -123,7 +123,7 @@ declare class IAngle {
 /**
  * Starfall's Bass Type
  */
-declare interface Bass {
+declare interface IBass {
     getFFT(samples: number): number[];
     getLength(): number;
     getTime(): number;
@@ -181,10 +181,10 @@ declare interface IColor {
 /**
  * Starfall's Entity Type
  */
-declare interface Entity {
+declare interface IEntity {
     addCollisionListener(callback: Function): void;
     applyAngForce(IAngle: IAngle): void;
-    applyDamage(damage: number, attacker: Entity, inflictor: Entity): void; // TODO: Verify that attacker and inflictor are, in fact, entities.
+    applyDamage(damage: number, attacker: IEntity, inflictor: IEntity): void; // TODO: Verify that attacker and inflictor are, in fact, entities.
     applyForceCenter(force: IVector): void;
     applyForceOffset(force: IVector, offset: IVector): void;
     applyTorque(torque: IVector): void;
@@ -202,14 +202,14 @@ declare interface Entity {
     getAttachment(index: number): any; // TODO: Figure out how this function returns.
     getAttachmentParent(): number;
     getBoneCount(): number;
-    getBoneMatrix(index?: number): VMatrix;
+    getBoneMatrix(index?: number): IVMatrix;
     getBoneName(bone?: number): string;
     getBoneParent(bone?: number): string;
     getBonePosition(bone?:number): any; // TODO: Figure out how this function returns.
     getClass(): string;
     getColor(): IColor;
     getEyeIAngles(): IAngle;
-    getEyePos(): IVector; // TODO: Figure out how this returns in the case of the entity being a ragdoll.
+    getEyePos(): IVector; // TODO: Figure out how this returns in the case of the IEntity being a ragdoll.
     getForward(): IVector;
     getHealth(): number;
     getInertia(): IVector;
@@ -220,11 +220,11 @@ declare interface Entity {
     getMaterials(): any; // TODO: Figure out what this returns.
     getMaxHealth(): number;
     getModel(): string;
-    getOwner(): Player;
-    getParent(): Entity;
-    getPhysicsObject(): PhysObj;
+    getOwner(): IPlayer;
+    getParent(): IEntity;
+    getPhysicsObject(): IPhysObj;
     getPhysicsObjectCount(): number;
-    getPhysicsObjectNum(id: number): PhysObj;
+    getPhysicsObjectNum(id: number): IPhysObj;
     getPhysMaterial(): string; // TODO: Verify this return type.
     getPos(): IVector;
     getRight(): IVector;
@@ -243,7 +243,7 @@ declare interface Entity {
     isVehicle(): boolean;
     isWeapon(): boolean;
     isWeldedTo(): boolean;
-    linkComponent(entity: Entity): void;
+    linkComponent(entity: IEntity): void;
     localToWorld(IVector: IVector): IVector;
     localToWorldIAngles(IAngle: IAngle): IAngle;
     lookupAttachment(name: string): number; // TODO: Verify the type of name.
@@ -260,18 +260,18 @@ declare interface Entity {
     setIAngles(IAngle: IAngle): void;
     setBodygroup(id: number, value: number): void;
     setColor(color: IColor): void;
-    setDrawShadow(enable: boolean, player: Player): void;
-    setDrawShadow(enable: boolean, players: Player[]): void;
+    setDrawShadow(enable: boolean, IPlayer: IPlayer): void;
+    setDrawShadow(enable: boolean, IPlayers: IPlayer[]): void;
     setFrozen(state: boolean): void;
-    setHologramMesh(mesh: Mesh): void;
+    setHologramMesh(mesh: IMesh): void;
     setHologramRenderBounds(IVector1: IVector, IVector2: IVector): void;
-    setHologramRenderMatrix(matrix: VMatrix): void;
+    setHologramRenderMatrix(matrix: IVMatrix): void;
     setInertia(inertia: IVector): void;
     setMass(mass: Number): void;
     setMaterial(material: string): void;
     setNocollideAll(enable: boolean): void;
     setNoDraw(disable: boolean): void;
-    setParent(parent: Entity, attachment?: string): void;
+    setParent(parent: IEntity, attachment?: string): void;
     setPhysMaterial(material: string): void; // TODO: Verify that material is indeed a string
     setPos(pos: IVector): void;
     setRenderFX(renderfx: number): void;
@@ -289,31 +289,31 @@ declare interface Entity {
 }
 
 /**
- * Stub VMatrix Class
+ * Stub VMatrix Interface
  */
-declare interface VMatrix {
-    // TODO: Populate Stub VMatrix Class
+declare interface IVMatrix {
+    // TODO: Populate Stub IVMatrix Interface
 }
 
 /**
- * Stub Player Class
+ * Stub Player Interface
  */
-declare interface Player {
-    // TODO: Populate Stub Player Class
+declare interface IPlayer {
+    // TODO: Populate Stub Player Interface
 }
 
 /**
- * Stub PhysObj Class
+ * Stub PhysObj Interface
  */
-declare interface PhysObj {
-    // TODO: Populate Stub PhysObj Class
+declare interface IPhysObj {
+    // TODO: Populate Stub PhysObj Interface
 }
 
 /**
  * Starfall's Mesh Type
  */
-declare interface Mesh {
-    // TODO: Verify that there isn't actually anything else that can be done to meshes.
+declare interface IMesh {
+    // TODO: Verify that there isn't actually anything else that can be done to Meshes.
     destroy(): void;
     draw(): void;
 }
