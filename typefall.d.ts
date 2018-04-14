@@ -21,10 +21,17 @@ declare namespace hook {
 
 // StarFall / render
 declare namespace render {
-    
+    function drawRect(x: number, y: number, width: number, height: number): void;
+    function drawRectOutline(x: number, y: number, width: number, height: number): void;
+    function drawRoundedBox(cornerRadius: number, x: number, y: number, width: number, height: number): void;
+    function drawRoundedBoxEX(cornerRadius: number, x: number, y: number, width: number, height: number, 
+        roundTopLeft: boolean, roundTopRight: boolean, roundBottomLeft: boolean, roundBottomRight: boolean): void;
+    function drawSimpleText(x: number, y: number, text: string, xAlignment: any, yAlignment: any): void; //TODO: Figure out type
+    function drawText(x: number, y: number, alignment: any): void; //TODO: Figure out type
+    function setColor(color: IColor): void;
 }
 
-declare interface IScreenVector {
+declare interface IScreenIVector {
     x: number,
     y: number,
     visible: true
@@ -33,47 +40,49 @@ declare interface IScreenVector {
 /**
  * Starfall's Vector Type
  */
-declare class Vector {
-    public x: number;
-    public y: number;
-    public z?: number;
+declare function Vector(x?: number, y?: number, z?:number): IVector;
 
-    public constructor(x: number, y: number, z?: number);
+declare interface IVector {
+    x?: number;
+    y?: number;
+    z?: number;
 
-    public add(vector: Vector): void;
-    public cross(vector: Vector): Vector;
-    public div(vector: Vector): void;
-    public dot(vector: Vector): number;
-    public getAngle(): Angle;
-    public getDistance(vector: Vector): number;
-    public getDistanceSqr(vector: Vector): number;
-    public getLength(): number;
-    public getLength2D(): number;
-    public getLengthSqr(): number;
-    public getLength2DSqr(): number;
-    public getNormalized(): Vector;
-    public isEqualTol(vector: Vector, tolerance: Number): boolean;
-    public isZero(): boolean;
-    public mul(scalar: number): void;
-    public normalize(): void;
-    public rotate(angle: Angle): void;
-    public rotateAroundAxis(axis: Vector, degrees: number, radians: number): Vector; // TODO: See what can be optionalized here.
-    public set(vector: Vector): void;
-    public setX(x: number): Vector;
-    public setY(y: number): Vector;
-    public setZ(z: number): Vector;
-    public setZero(): void;
-    public sub(vector: Vector): void;
-    public toScreen(): IScreenVector;
-    public vdiv(vector: Vector): void;
-    public vmul(vector: Vector): void;
-    public withinAABox(vector1: Vector, vector2: Vector): boolean;
+    add(IVector: IVector): void;
+    cross(IVector: IVector): IVector;
+    div(IVector: IVector): void;
+    dot(IVector: IVector): number;
+    getIAngle(): IAngle;
+    getDistance(IVector: IVector): number;
+    getDistanceSqr(IVector: IVector): number;
+    getLength(): number;
+    getLength2D(): number;
+    getLengthSqr(): number;
+    getLength2DSqr(): number;
+    getNormalized(): IVector;
+    isEqualTol(IVector: IVector, tolerance: Number): boolean;
+    isZero(): boolean;
+    mul(scalar: number): void;
+    normalize(): void;
+    rotate(IAngle: IAngle): void;
+    rotateAroundAxis(axis: IVector, degrees: number, radians: number): IVector; // TODO: See what can be optionalized here.
+    set(IVector: IVector): void;
+    setX(x: number): IVector;
+    setY(y: number): IVector;
+    setZ(z: number): IVector;
+    setZero(): void;
+    sub(IVector: IVector): void;
+    toScreen(): IScreenIVector;
+    vdiv(IVector: IVector): void;
+    vmul(IVector: IVector): void;
+    withinAABox(IVector1: IVector, IVector2: IVector): boolean;
 }
 
 /**
  * Starfall's Angle Type
  */
-declare class Angle {
+declare function Angle(pitch: number, yaw:number, roll: number): IAngle;
+
+declare class IAngle {
     public p: number;
     public y: number;
     public r: number;
@@ -83,17 +92,17 @@ declare class Angle {
 
     public constructor(pitch: number, yaw: number, roll: number);
     
-    public getForward(): Vector
-    public getNormalized(): Angle
-    public getRight(): Vector
-    public getUp(): Vector
+    public getForward(): IVector
+    public getNormalized(): IAngle
+    public getRight(): IVector
+    public getUp(): IVector
     public isZero(): boolean
     public normalize(): void
-    public rotateAroundAxis(axis: Vector, degrees: number, radians: number): Angle; // TODO: See what can be optionalized here.
-    public set(angle: Angle): void;
-    public setP(pitch: number): Angle;
-    public setR(roll: number): Angle;
-    public setY(yaw: number): Angle;
+    public rotateAroundAxis(axis: IVector, degrees: number, radians: number): IAngle; // TODO: See what can be optionalized here.
+    public set(IAngle: IAngle): void;
+    public setP(pitch: number): IAngle;
+    public setR(roll: number): IAngle;
+    public setY(yaw: number): IAngle;
     public setZero(): void;
 }
 
@@ -111,7 +120,7 @@ declare class Bass {
     public setFade(min: number, max: number): void;
     public setLooping(loop: boolean): void;
     public setPitch(pitch: number): void;
-    public setPos(pos: Vector): void;
+    public setPos(pos: IVector): void;
     public setTime(time: number): void;
     public setVolume(volume: number): void;
     public stop(): void;
@@ -120,22 +129,25 @@ declare class Bass {
 /**
  * Starfall's Color Type
  */
-declare class Color {
-    public r: number;
-    public g: number;
-    public b: number;
-    public h: number;
-    public s: number;
-    public v: number;
 
-    public constructor (r: number, g: number, b: number);
+declare function Color(red: number, green: number, blue: number, alpha?: number): IColor;
 
-    public hsvToRGB(): Color;
-    public rgbToHSV(): Color;
-    public setA(a: number): Color;
-    public setB(g: number): Color;
-    public setG(b: number): Color;
-    public setR(r: number): Color;
+declare interface IColor {
+    r: number;
+    g: number;
+    b: number;
+    h: number;
+    s: number;
+    v: number;
+
+    // constructor (r: number, g: number, b: number);
+
+    hsvToRGB(): IColor;
+    rgbToHSV(): IColor;
+    setA(a: number): IColor;
+    setB(g: number): IColor;
+    setG(b: number): IColor;
+    setR(r: number): IColor;
 }
 
 /*declare enum CHAN {
@@ -157,11 +169,11 @@ declare class Color {
  */
 declare class Entity {
     public addCollisionListener(callback: Function): void;
-    public applyAngForce(angle: Angle): void;
+    public applyAngForce(IAngle: IAngle): void;
     public applyDamage(damage: number, attacker: Entity, inflictor: Entity): void; // TODO: Verify that attacker and inflictor are, in fact, entities.
-    public applyForceCenter(force: Vector): void;
-    public applyForceOffset(force: Vector, offset: Vector): void;
-    public applyTorque(torque: Vector): void;
+    public applyForceCenter(force: IVector): void;
+    public applyForceOffset(force: IVector, offset: IVector): void;
+    public applyTorque(torque: IVector): void;
     public breakEnt(): void;
     public emitSound(path: string, level?: number, pitch?: number, channel?: number): void; //TODO: clarify this by interrogating sfex devs
     public enableDrag(enable: boolean): void;
@@ -170,9 +182,9 @@ declare class Entity {
     public enableSphere(enable: boolean): void;
     public entIndex(): number;
     public extinguish(): void;
-    public getAngles(): Angle;
-    public getAngleVelocity(): Angle;
-    public getAngleVelocityAngle(): Angle;
+    public getIAngles(): IAngle;
+    public getIAngleVelocity(): IAngle;
+    public getIAngleVelocityIAngle(): IAngle;
     public getAttachment(index: number): any; // TODO: Figure out how this function returns.
     public getAttachmentParent(): number;
     public getBoneCount(): number;
@@ -181,15 +193,15 @@ declare class Entity {
     public getBoneParent(bone?: number): string;
     public getBonePosition(bone?:number): any; // TODO: Figure out how this function returns.
     public getClass(): string;
-    public getColor(): Color;
-    public getEyeAngles(): Angle;
-    public getEyePos(): Vector; // TODO: Figure out how this returns in the case of the entity being a ragdoll.
-    public getForward(): Vector;
+    public getColor(): IColor;
+    public getEyeIAngles(): IAngle;
+    public getEyePos(): IVector; // TODO: Figure out how this returns in the case of the entity being a ragdoll.
+    public getForward(): IVector;
     public getHealth(): number;
-    public getInertia(): Vector;
+    public getInertia(): IVector;
     public getMass(): number;
-    public getMassCenter(): Vector;
-    public getMassCenterW(): Vector;
+    public getMassCenter(): IVector;
+    public getMassCenterW(): IVector;
     public getMaterial(): string;
     public getMaterials(): any; // TODO: Figure out what this returns.
     public getMaxHealth(): number;
@@ -200,12 +212,12 @@ declare class Entity {
     public getPhysicsObjectCount(): number;
     public getPhysicsObjectNum(id: number): PhysObj;
     public getPhysMaterial(): string; // TODO: Verify this return type.
-    public getPos(): Vector;
-    public getRight(): Vector;
+    public getPos(): IVector;
+    public getRight(): IVector;
     public getSkin(): number;
     public getSubMaterial(index: number): string;
-    public getUp(): Vector;
-    public getVelocity(): Vector;
+    public getUp(): IVector;
+    public getVelocity(): IVector;
     public getWaterLevel(): number;
     public ignite(): void;
     public isFrozen(): boolean;
@@ -218,48 +230,48 @@ declare class Entity {
     public isWeapon(): boolean;
     public isWeldedTo(): boolean;
     public linkComponent(entity: Entity): void;
-    public localToWorld(vector: Vector): Vector;
-    public localToWorldAngles(angle: Angle): Angle;
+    public localToWorld(IVector: IVector): IVector;
+    public localToWorldIAngles(IAngle: IAngle): IAngle;
     public lookupAttachment(name: string): number; // TODO: Verify the type of name.
     public lookupBone(name: string): number;
-    public manipulateBoneAngles(id: number, ang: Angle): void;
-    public manipulateBonePosition(id: number, pos: Vector): void;
-    public manipulateBoneScale(id: number, pos: Vector): void;
-    public obbCenter(): Vector;
-    public obbCenterW(): Vector;
-    public obbSize(): Vector;
+    public manipulateBoneIAngles(id: number, ang: IAngle): void;
+    public manipulateBonePosition(id: number, pos: IVector): void;
+    public manipulateBoneScale(id: number, pos: IVector): void;
+    public obbCenter(): IVector;
+    public obbCenterW(): IVector;
+    public obbSize(): IVector;
     public remove(): void;
     public removeCollisionListener(): void;
     public removeTrails(): void;
-    public setAngles(angle: Angle): void;
+    public setIAngles(IAngle: IAngle): void;
     public setBodygroup(id: number, value: number): void;
-    public setColor(color: Color): void;
+    public setColor(color: IColor): void;
     public setDrawShadow(enable: boolean, player: Player): void;
     public setDrawShadow(enable: boolean, players: Player[]): void;
     public setFrozen(state: boolean): void;
     public setHologramMesh(mesh: Mesh): void;
-    public setHologramRenderBounds(vector1: Vector, vector2: Vector): void;
+    public setHologramRenderBounds(IVector1: IVector, IVector2: IVector): void;
     public setHologramRenderMatrix(matrix: VMatrix): void;
-    public setInertia(inertia: Vector): void;
+    public setInertia(inertia: IVector): void;
     public setMass(mass: Number): void;
     public setMaterial(material: string): void;
     public setNocollideAll(enable: boolean): void;
     public setNoDraw(disable: boolean): void;
     public setParent(parent: Entity, attachment?: string): void;
     public setPhysMaterial(material: string): void; // TODO: Verify that material is indeed a string
-    public setPos(pos: Vector): void;
+    public setPos(pos: IVector): void;
     public setRenderFX(renderfx: number): void;
     public setRenderMode(rendermode: number): void;
     public setSkin(index: number): void;
     public setSolid(solid: boolean): void;
     public setSubMaterial(index: number, material: string): void;
-    public setTrails(startSize: number, endSize: number, length: number, material: string, color: Color, attachmentID?: number, additive?: boolean): void;
-    public setVelocity(velocity: Vector): void;
+    public setTrails(startSize: number, endSize: number, length: number, material: string, color: IColor, attachmentID?: number, additive?: boolean): void;
+    public setVelocity(velocity: IVector): void;
     public translateBoneToPhysBone(id: number): number;
     public translatePhysBoneToBone(id: number): number;
     public unparent(): void; // ? Does this not take any argments? It doesn't according to the docs, anyways.
-    public worldToLocal(vector: Vector): Vector;
-    public worldToLocalAngles(angle: Angle): Angle;
+    public worldToLocal(IVector: IVector): IVector;
+    public worldToLocalIAngles(IAngle: IAngle): IAngle;
 }
 
 /**
