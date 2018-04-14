@@ -45,6 +45,12 @@ declare namespace find {
     function inSphere(center: IVector, radius: number, filter: IFilter): IEntity[];
 }
 
+declare namespace holograms {
+    function canSpawn(): boolean;
+    function create(pos: IVector, ang: IAngle, model: string, scale?: IVector): IHologram;
+    function hologramsLeft(): number;
+}
+
 declare interface IScreenIVector {
     x: number,
     y: number,
@@ -316,4 +322,24 @@ declare interface IMesh {
     // TODO: Verify that there isn't actually anything else that can be done to Meshes.
     destroy(): void;
     draw(): void;
+}
+
+/**
+ * Starfall's Hologram Type
+ */
+declare interface IHologram extends IEntity {
+    getAnimationLength(): number;
+    getAnimationNumber(name: string): number;
+    getFlexes(); // TODO: Make an interface for this return type.
+    getPose(name: string): number; // TODO: Verify that this actually returns a number.
+    setAngVel(angVel: IVector): void;
+    setAnimation(name: string, frame: number, rate: number): void;
+    setClip(index: number, enabled: boolean, origin: IVector, normal: IVector, local: boolean): void; // TODO: Verify that normal is a Vector.
+    setFlexScale(scale: IVector): void; // TODO: Ensure that scale is a Vector, and not an number.
+    setFlexWeight(id: number, weight: number): void;
+    setModel(model: string): void;
+    setPose(name: string, value: number); // TODO: Ensure that value is a number.
+    setScale(scale: IVector);
+    setVel(vel: IVector);
+    suppressEngineLighting(suppress: boolean);
 }
