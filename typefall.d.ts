@@ -31,6 +31,16 @@ declare namespace render {
     function setColor(color: IColor): void;
 }
 
+declare namespace find {
+    function all(filter: Function): Entity[];
+    function allPlayers(filter: Function): Entity[];
+    function byClass(className: string, filter: Function): Entity[];
+    function byModel(model: string, filter: Function): Entity[];
+    function inBox(corner1: IVector, corner2: IVector, filter: Function): Entity[];
+    function inCone(pos: IVector, direction: IVector, distance: number, radius: number, filter: Function): Entity[]; // TODO: Confirm that direction is a Vector, not an Angle.
+    function inSphere(center: IVector, radius: number, filter: Function): Entity[];
+}
+
 declare interface IScreenIVector {
     x: number,
     y: number,
