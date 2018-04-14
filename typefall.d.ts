@@ -31,18 +31,18 @@ declare namespace render {
     function setColor(color: IColor): void;
 }
 
-declare interface Filter {
+declare interface IFilter {
     (ent: Entity) : boolean
 }
 
 declare namespace find {
-    function all(filter: Filter): Entity[];
-    function allPlayers(filter: Filter): Entity[];
-    function byClass(className: string, filter: Filter): Entity[];
-    function byModel(model: string, filter: Filter): Entity[];
-    function inBox(corner1: IVector, corner2: IVector, filter: Filter): Entity[];
-    function inCone(pos: IVector, direction: IVector, distance: number, radius: number, filter: Filter): Entity[]; // TODO: Confirm that direction is a Vector, not an Angle.
-    function inSphere(center: IVector, radius: number, filter: Filter): Entity[];
+    function all(filter: IFilter): Entity[];
+    function allPlayers(filter: IFilter): Entity[];
+    function byClass(className: string, filter: IFilter): Entity[];
+    function byModel(model: string, filter: IFilter): Entity[];
+    function inBox(corner1: IVector, corner2: IVector, filter: IFilter): Entity[];
+    function inCone(pos: IVector, direction: IVector, distance: number, radius: number, filter: IFilter): Entity[]; // TODO: Confirm that direction is a Vector, not an Angle.
+    function inSphere(center: IVector, radius: number, filter: IFilter): Entity[];
 }
 
 declare interface IScreenIVector {
