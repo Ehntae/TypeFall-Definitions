@@ -97,47 +97,47 @@ declare interface IVector {
 declare function Angle(pitch: number, yaw:number, roll: number): IAngle;
 
 declare class IAngle {
-    public p: number;
-    public y: number;
-    public r: number;
-    public pitch: number;
-    public yaw: number;
-    public roll: number;
+    p: number;
+    y: number;
+    r: number;
+    pitch: number;
+    yaw: number;
+    roll: number;
 
-    public constructor(pitch: number, yaw: number, roll: number);
+    constructor(pitch: number, yaw: number, roll: number);
     
-    public getForward(): IVector
-    public getNormalized(): IAngle
-    public getRight(): IVector
-    public getUp(): IVector
-    public isZero(): boolean
-    public normalize(): void
-    public rotateAroundAxis(axis: IVector, degrees: number, radians: number): IAngle; // TODO: See what can be optionalized here.
-    public set(IAngle: IAngle): void;
-    public setP(pitch: number): IAngle;
-    public setR(roll: number): IAngle;
-    public setY(yaw: number): IAngle;
-    public setZero(): void;
+    getForward(): IVector
+    getNormalized(): IAngle
+    getRight(): IVector
+    getUp(): IVector
+    isZero(): boolean
+    normalize(): void
+    rotateAroundAxis(axis: IVector, degrees: number, radians: number): IAngle; // TODO: See what can be optionalized here.
+    set(IAngle: IAngle): void;
+    setP(pitch: number): IAngle;
+    setR(roll: number): IAngle;
+    setY(yaw: number): IAngle;
+    setZero(): void;
 }
 
 /**
  * Starfall's Bass Type
  */
-declare class Bass {
-    public getFFT(samples: number): number[];
-    public getLength(): number;
-    public getTime(): number;
-    public isOnline(): true;
-    public isValid(): true;
-    public pause(): void;
-    public play(): void;
-    public setFade(min: number, max: number): void;
-    public setLooping(loop: boolean): void;
-    public setPitch(pitch: number): void;
-    public setPos(pos: IVector): void;
-    public setTime(time: number): void;
-    public setVolume(volume: number): void;
-    public stop(): void;
+declare interface Bass {
+    getFFT(samples: number): number[];
+    getLength(): number;
+    getTime(): number;
+    isOnline(): true;
+    isValid(): true;
+    pause(): void;
+    play(): void;
+    setFade(min: number, max: number): void;
+    setLooping(loop: boolean): void;
+    setPitch(pitch: number): void;
+    setPos(pos: IVector): void;
+    setTime(time: number): void;
+    setVolume(volume: number): void;
+    stop(): void;
 }
 
 /**
@@ -181,139 +181,139 @@ declare interface IColor {
 /**
  * Starfall's Entity Type
  */
-declare class Entity {
-    public addCollisionListener(callback: Function): void;
-    public applyAngForce(IAngle: IAngle): void;
-    public applyDamage(damage: number, attacker: Entity, inflictor: Entity): void; // TODO: Verify that attacker and inflictor are, in fact, entities.
-    public applyForceCenter(force: IVector): void;
-    public applyForceOffset(force: IVector, offset: IVector): void;
-    public applyTorque(torque: IVector): void;
-    public breakEnt(): void;
-    public emitSound(path: string, level?: number, pitch?: number, channel?: number): void; //TODO: clarify this by interrogating sfex devs
-    public enableDrag(enable: boolean): void;
-    public enableGravity(enable: boolean): void;
-    public enableMotion(enable: boolean): void;
-    public enableSphere(enable: boolean): void;
-    public entIndex(): number;
-    public extinguish(): void;
-    public getIAngles(): IAngle;
-    public getIAngleVelocity(): IAngle;
-    public getIAngleVelocityIAngle(): IAngle;
-    public getAttachment(index: number): any; // TODO: Figure out how this function returns.
-    public getAttachmentParent(): number;
-    public getBoneCount(): number;
-    public getBoneMatrix(index?: number): VMatrix;
-    public getBoneName(bone?: number): string;
-    public getBoneParent(bone?: number): string;
-    public getBonePosition(bone?:number): any; // TODO: Figure out how this function returns.
-    public getClass(): string;
-    public getColor(): IColor;
-    public getEyeIAngles(): IAngle;
-    public getEyePos(): IVector; // TODO: Figure out how this returns in the case of the entity being a ragdoll.
-    public getForward(): IVector;
-    public getHealth(): number;
-    public getInertia(): IVector;
-    public getMass(): number;
-    public getMassCenter(): IVector;
-    public getMassCenterW(): IVector;
-    public getMaterial(): string;
-    public getMaterials(): any; // TODO: Figure out what this returns.
-    public getMaxHealth(): number;
-    public getModel(): string;
-    public getOwner(): Player;
-    public getParent(): Entity;
-    public getPhysicsObject(): PhysObj;
-    public getPhysicsObjectCount(): number;
-    public getPhysicsObjectNum(id: number): PhysObj;
-    public getPhysMaterial(): string; // TODO: Verify this return type.
-    public getPos(): IVector;
-    public getRight(): IVector;
-    public getSkin(): number;
-    public getSubMaterial(index: number): string;
-    public getUp(): IVector;
-    public getVelocity(): IVector;
-    public getWaterLevel(): number;
-    public ignite(): void;
-    public isFrozen(): boolean;
-    public isNPC(): boolean;
-    public isOnGround(): boolean;
-    public isPlayer(): boolean;
-    public isValid(): boolean;
-    public isValidPhys(): boolean;
-    public isVehicle(): boolean;
-    public isWeapon(): boolean;
-    public isWeldedTo(): boolean;
-    public linkComponent(entity: Entity): void;
-    public localToWorld(IVector: IVector): IVector;
-    public localToWorldIAngles(IAngle: IAngle): IAngle;
-    public lookupAttachment(name: string): number; // TODO: Verify the type of name.
-    public lookupBone(name: string): number;
-    public manipulateBoneIAngles(id: number, ang: IAngle): void;
-    public manipulateBonePosition(id: number, pos: IVector): void;
-    public manipulateBoneScale(id: number, pos: IVector): void;
-    public obbCenter(): IVector;
-    public obbCenterW(): IVector;
-    public obbSize(): IVector;
-    public remove(): void;
-    public removeCollisionListener(): void;
-    public removeTrails(): void;
-    public setIAngles(IAngle: IAngle): void;
-    public setBodygroup(id: number, value: number): void;
-    public setColor(color: IColor): void;
-    public setDrawShadow(enable: boolean, player: Player): void;
-    public setDrawShadow(enable: boolean, players: Player[]): void;
-    public setFrozen(state: boolean): void;
-    public setHologramMesh(mesh: Mesh): void;
-    public setHologramRenderBounds(IVector1: IVector, IVector2: IVector): void;
-    public setHologramRenderMatrix(matrix: VMatrix): void;
-    public setInertia(inertia: IVector): void;
-    public setMass(mass: Number): void;
-    public setMaterial(material: string): void;
-    public setNocollideAll(enable: boolean): void;
-    public setNoDraw(disable: boolean): void;
-    public setParent(parent: Entity, attachment?: string): void;
-    public setPhysMaterial(material: string): void; // TODO: Verify that material is indeed a string
-    public setPos(pos: IVector): void;
-    public setRenderFX(renderfx: number): void;
-    public setRenderMode(rendermode: number): void;
-    public setSkin(index: number): void;
-    public setSolid(solid: boolean): void;
-    public setSubMaterial(index: number, material: string): void;
-    public setTrails(startSize: number, endSize: number, length: number, material: string, color: IColor, attachmentID?: number, additive?: boolean): void;
-    public setVelocity(velocity: IVector): void;
-    public translateBoneToPhysBone(id: number): number;
-    public translatePhysBoneToBone(id: number): number;
-    public unparent(): void; // ? Does this not take any argments? It doesn't according to the docs, anyways.
-    public worldToLocal(IVector: IVector): IVector;
-    public worldToLocalIAngles(IAngle: IAngle): IAngle;
+declare interface Entity {
+    addCollisionListener(callback: Function): void;
+    applyAngForce(IAngle: IAngle): void;
+    applyDamage(damage: number, attacker: Entity, inflictor: Entity): void; // TODO: Verify that attacker and inflictor are, in fact, entities.
+    applyForceCenter(force: IVector): void;
+    applyForceOffset(force: IVector, offset: IVector): void;
+    applyTorque(torque: IVector): void;
+    breakEnt(): void;
+    emitSound(path: string, level?: number, pitch?: number, channel?: number): void; //TODO: clarify this by interrogating sfex devs
+    enableDrag(enable: boolean): void;
+    enableGravity(enable: boolean): void;
+    enableMotion(enable: boolean): void;
+    enableSphere(enable: boolean): void;
+    entIndex(): number;
+    extinguish(): void;
+    getIAngles(): IAngle;
+    getIAngleVelocity(): IAngle;
+    getIAngleVelocityIAngle(): IAngle;
+    getAttachment(index: number): any; // TODO: Figure out how this function returns.
+    getAttachmentParent(): number;
+    getBoneCount(): number;
+    getBoneMatrix(index?: number): VMatrix;
+    getBoneName(bone?: number): string;
+    getBoneParent(bone?: number): string;
+    getBonePosition(bone?:number): any; // TODO: Figure out how this function returns.
+    getClass(): string;
+    getColor(): IColor;
+    getEyeIAngles(): IAngle;
+    getEyePos(): IVector; // TODO: Figure out how this returns in the case of the entity being a ragdoll.
+    getForward(): IVector;
+    getHealth(): number;
+    getInertia(): IVector;
+    getMass(): number;
+    getMassCenter(): IVector;
+    getMassCenterW(): IVector;
+    getMaterial(): string;
+    getMaterials(): any; // TODO: Figure out what this returns.
+    getMaxHealth(): number;
+    getModel(): string;
+    getOwner(): Player;
+    getParent(): Entity;
+    getPhysicsObject(): PhysObj;
+    getPhysicsObjectCount(): number;
+    getPhysicsObjectNum(id: number): PhysObj;
+    getPhysMaterial(): string; // TODO: Verify this return type.
+    getPos(): IVector;
+    getRight(): IVector;
+    getSkin(): number;
+    getSubMaterial(index: number): string;
+    getUp(): IVector;
+    getVelocity(): IVector;
+    getWaterLevel(): number;
+    ignite(): void;
+    isFrozen(): boolean;
+    isNPC(): boolean;
+    isOnGround(): boolean;
+    isPlayer(): boolean;
+    isValid(): boolean;
+    isValidPhys(): boolean;
+    isVehicle(): boolean;
+    isWeapon(): boolean;
+    isWeldedTo(): boolean;
+    linkComponent(entity: Entity): void;
+    localToWorld(IVector: IVector): IVector;
+    localToWorldIAngles(IAngle: IAngle): IAngle;
+    lookupAttachment(name: string): number; // TODO: Verify the type of name.
+    lookupBone(name: string): number;
+    manipulateBoneIAngles(id: number, ang: IAngle): void;
+    manipulateBonePosition(id: number, pos: IVector): void;
+    manipulateBoneScale(id: number, pos: IVector): void;
+    obbCenter(): IVector;
+    obbCenterW(): IVector;
+    obbSize(): IVector;
+    remove(): void;
+    removeCollisionListener(): void;
+    removeTrails(): void;
+    setIAngles(IAngle: IAngle): void;
+    setBodygroup(id: number, value: number): void;
+    setColor(color: IColor): void;
+    setDrawShadow(enable: boolean, player: Player): void;
+    setDrawShadow(enable: boolean, players: Player[]): void;
+    setFrozen(state: boolean): void;
+    setHologramMesh(mesh: Mesh): void;
+    setHologramRenderBounds(IVector1: IVector, IVector2: IVector): void;
+    setHologramRenderMatrix(matrix: VMatrix): void;
+    setInertia(inertia: IVector): void;
+    setMass(mass: Number): void;
+    setMaterial(material: string): void;
+    setNocollideAll(enable: boolean): void;
+    setNoDraw(disable: boolean): void;
+    setParent(parent: Entity, attachment?: string): void;
+    setPhysMaterial(material: string): void; // TODO: Verify that material is indeed a string
+    setPos(pos: IVector): void;
+    setRenderFX(renderfx: number): void;
+    setRenderMode(rendermode: number): void;
+    setSkin(index: number): void;
+    setSolid(solid: boolean): void;
+    setSubMaterial(index: number, material: string): void;
+    setTrails(startSize: number, endSize: number, length: number, material: string, color: IColor, attachmentID?: number, additive?: boolean): void;
+    setVelocity(velocity: IVector): void;
+    translateBoneToPhysBone(id: number): number;
+    translatePhysBoneToBone(id: number): number;
+    unparent(): void; // ? Does this not take any argments? It doesn't according to the docs, anyways.
+    worldToLocal(IVector: IVector): IVector;
+    worldToLocalIAngles(IAngle: IAngle): IAngle;
 }
 
 /**
  * Stub VMatrix Class
  */
-declare class VMatrix {
+declare interface VMatrix {
     // TODO: Populate Stub VMatrix Class
 }
 
 /**
  * Stub Player Class
  */
-declare class Player {
+declare interface Player {
     // TODO: Populate Stub Player Class
 }
 
 /**
  * Stub PhysObj Class
  */
-declare class PhysObj {
+declare interface PhysObj {
     // TODO: Populate Stub PhysObj Class
 }
 
 /**
  * Starfall's Mesh Type
  */
-declare class Mesh {
+declare interface Mesh {
     // TODO: Verify that there isn't actually anything else that can be done to meshes.
-    public destroy(): void;
-    public draw(): void;
+    destroy(): void;
+    draw(): void;
 }
