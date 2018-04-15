@@ -326,7 +326,7 @@ declare interface IMesh {
 declare interface IHologram extends IEntity {
     getAnimationLength(): number;
     getAnimationNumber(name: string): number;
-    getFlexes(); // TODO: Make an interface for this return type.
+    getFlexes(): any; // TODO: Make an interface for this return type.
     getPose(name: string): number; // TODO: Verify that this actually returns a number.
     setAngVel(angVel: IVector): void;
     setAnimation(name: string, frame: number, rate: number): void;
@@ -334,8 +334,8 @@ declare interface IHologram extends IEntity {
     setFlexScale(scale: IVector): void; // TODO: Ensure that scale is a Vector, and not an number.
     setFlexWeight(id: number, weight: number): void;
     setModel(model: string): void;
-    setPose(name: string, value: number); // TODO: Ensure that value is a number.
-    setScale(scale: IVector);
-    setVel(vel: IVector);
-    suppressEngineLighting(suppress: boolean);
+    setPose(name: string, value: number): void; // TODO: Ensure that value is a number.
+    setScale(scale: IVector): void;
+    setVel(vel: IVector): void;
+    suppressEngineLighting(suppress: boolean): void;
 }
